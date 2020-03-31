@@ -6,7 +6,7 @@
 
 #include <assert.h>
 #include "ppm_io.h"
-
+#include <stdlib.h>
 
 
 /* Read a PPM-formatted image from a file (assumes fp != NULL).
@@ -19,35 +19,39 @@ Image * read_ppm(FILE *fp) {
   // check that fp is not NULL
   assert(fp); 
 
-  Image *img;
-  Pixel *pix;
+  Image *img = malloc(sizeof(Image));
+  //Pixel *pix;
   //char header[18];
-
+  int rows, cols;
+  
   if (fgetc(fp) != 'P' || fgetc(fp) != '6') {
     return NULL;
   }
 
   // not sure how important the whitespace fgetc is
   fgetc(fp); // guaranteed whitespace
-  fscanf(fp, "%d", &img->cols);
+  fscanf(fp, "%d", &cols);
   fgetc(fp); // guaranteed whitespace
-  fscanf(fp, "&d", &img->rows);
+  fscanf(fp, "%d", &rows);
   fgetc(fp); // guaranteed whitespace
   
   unsigned char color_check = 0;
-  fscanf(fp, "%d", &color_check);
+  fscanf(fp, "%hhu", &color_check);
   if (color_check != 255) {
     return NULL;
   }
 
   fgetc(fp); //guaranteed whitespace
 
-  pix = malloc(rows * cols * sizeof(Pixel));
-  img->data = malloc(sizeof(pix) * sizeof(Pixel));  
-  fread(pix, sizeof(Pixel), sizeof(pix), fp);
-  fwrite(img->data, sizeof(Pixel), sizeof(pix), pix);
   
-  return img;  //TO DO: replace this stub
+  //pix = malloc(rows * cols * sizeof(Pixel));
+  img->data = malloc(rows * cols * sizeof(Pixel));
+  img->rows = rows;
+  img->cols = cols;
+  fread(img->data, sizeof(Pixel), sizeof(img->data), fp);
+  //fwrite(img->data, sizeof(Pixel), sizeof(pix), pix);
+  
+  return img;
   
 }
 
