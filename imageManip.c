@@ -203,3 +203,29 @@ int zoomOut(Image *img) {
   return 0;
 }
 
+int swirl(Image *img, int xCenter, int yCenter, int distortion) {
+
+  Image *imgNew = malloc(sizeof(Image));
+  imgNew->rows = img->rows;
+  imgNew->cols = img->cols;
+  imgNew->data = malloc(imgNew->rows * imgNew-> cols * sizeof(Pixel));
+
+  int alpha;
+  int xCoord, yCoord;
+  
+  for (int r = 0; r < imgNew->rows; r++) {
+    for (int c = 0; c < imgNew->cols; c++) {
+      alpha = sqrt( pow((r - xCenter), 2) + pow((c - yCenter), 2)) / distortion;
+
+      xCoord = (r - xCenter) * cos(alpha) - (c - yCenter) * sin(alpha) + xCenter;
+      yCoord = (r - xCenter) * sin(alpha) - (c - yCenter) * cos(alpha) + yCenter;
+
+      imgNew->data[r * imgNew->cols + c] = img->data[xCoord * imgNew->cols + yCoord];
+    }
+  }
+
+  //write ppm
+  //free imgNew
+  
+  return 0;
+}
