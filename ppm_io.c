@@ -28,7 +28,7 @@ Image * read_ppm(FILE *fp) {
     return NULL;
   }
 
-  // not sure how important the whitespace fgetc is
+  // not sure how important the whitespace fgetc() is
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &cols);
   fgetc(fp); // guaranteed whitespace
