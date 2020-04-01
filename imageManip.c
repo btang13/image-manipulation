@@ -12,14 +12,19 @@
 //exposure
 Image * exposure(Image * img, int ev) {
 
+  //I COMMENTED THIS OUT IDK IF THE CODE IS RIGHT OR WRONG BUT
+  //WE NEED TO FIX THE READ_PPM(FILE INPUT) STUFF FIRST TO SEE IF
+  //THIS IS RIGHT OR WRONG
+  /*
   for (int r = 0; r < img->rows; r++) {
     for (int c = 0; c < img->cols; c++) {
 
       img->data[r * img->cols + c].r = img->data[r * img->cols + c].r * pow(2, ev);
       img->data[r * img->cols + c].g = img->data[r * img->cols + c].g * pow(2, ev);
       img->data[r * img->cols + c].b = img->data[r * img->cols + c].b * pow(2, ev);
+  
 
-      /*
+      
       //if exceeds 255
       if (img->data[r * img->cols + c].r > 255) {
 	img->data[r * img->cols +c].r = 255;
@@ -30,11 +35,14 @@ Image * exposure(Image * img, int ev) {
       if (img->data[r * img->cols + c].b > 255) {
 	img->data[r * img->cols + c].b = 255;
       }
-      */
+      
       
       
     }
   }
+  */
+
+
 
   //write_ppm(fp, img);
   
