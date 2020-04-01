@@ -43,12 +43,11 @@ Image * read_ppm(FILE *fp) {
 
   fgetc(fp); //guaranteed whitespace
 
-  
   //pix = malloc(rows * cols * sizeof(Pixel));
   img->data = malloc(rows * cols * sizeof(Pixel));
   img->rows = rows;
   img->cols = cols;
-  fread(img->data, sizeof(Pixel), sizeof(img->data), fp);
+  fread(img->data, sizeof(Pixel), cols * rows, fp);
   //fwrite(img->data, sizeof(Pixel), sizeof(pix), pix);
   
   return img;
