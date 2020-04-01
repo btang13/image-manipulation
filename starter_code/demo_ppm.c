@@ -30,7 +30,7 @@ int main() {
   /*im->data = pix;
   
   // fill Pixel array by setting all Pixels to same color
-  Pixel my_color = {0, 127, 255}; //the color for most pixels
+  Pixel my_color = {255, 127, 0}; //the color for most pixels
   Pixel white = {255, 255, 255}; //the color for a few pixels
   for (int r = 0; r < im->rows; r++) {
     for (int c = 0; c < im->cols; c++) {
@@ -40,8 +40,8 @@ int main() {
 	im->data[(r * im->cols) + c] = white;
       }
     }
-  }
-  */
+    }*/
+  
   FILE *kitten = fopen("./data/kitten.ppm", "rb");
   im = read_ppm(kitten);
   
