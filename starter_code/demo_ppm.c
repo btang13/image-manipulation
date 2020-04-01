@@ -27,7 +27,7 @@ int main() {
   }
 
   // let data field of Image point to the new array
-  im->data = pix;
+  /*im->data = pix;
   
   // fill Pixel array by setting all Pixels to same color
   Pixel my_color = {255, 127, 0}; //the color for most pixels
@@ -40,10 +40,10 @@ int main() {
 	im->data[(r * im->cols) + c] = white;
       }
     }
-  }
+    }*/
   
-  //FILE *kitten = fopen("./data/kitten.ppm", "rb");
-  //im = read_ppm(kitten);
+  FILE *kitten = fopen("./data/kitten.ppm", "rb");
+  im = read_ppm(kitten);
   
   // write image to disk
   FILE *fp = fopen("demo.ppm", "wb");
