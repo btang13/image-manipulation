@@ -12,6 +12,7 @@
 //exposure
 Image * exposure(Image * img, int ev) {
 
+  //DO VOID FOR THE TITLE (since we're not making a new one and just changing the original)
   //I COMMENTED THIS OUT IDK IF THE CODE IS RIGHT OR WRONG BUT
   //WE NEED TO FIX THE READ_PPM(FILE INPUT) STUFF FIRST TO SEE IF
   //THIS IS RIGHT OR WRONG
