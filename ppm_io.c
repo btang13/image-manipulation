@@ -65,7 +65,7 @@ Image * read_ppm(FILE *fp) {
     return NULL;
   }
 
-  fgetc(fp); //guaranteed whitespace
+  fgetc(fp); // guaranteed whitespace
 
   //pix = malloc(rows * cols * sizeof(Pixel));
   img->data = malloc(rows * cols * sizeof(Pixel));

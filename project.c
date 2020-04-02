@@ -27,8 +27,8 @@ int main (int argc, char *argv[]) {
   FILE *output = fopen(argv[2], "w");
   
   //ERROR 1 CHECKER
-  //if there are less than 2 args (so either no input or no output)
-  if (argc <= 2) {
+  //if there are less than 3 args (so either no input or no output)
+  if (argc <= 3) {
     printf("Failed to supply input filename or output filename, or both\n");
     return 1;
   }
@@ -40,9 +40,10 @@ int main (int argc, char *argv[]) {
     return 2;
   }
 
+  Image * inputImg = read_ppm(input);
+
   //ERROR 3 CHECKER
-  if (read_ppm(input) == NULL) {
-    printf("penis\n");
+  if (inputImg == NULL) {
     printf("Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
     return 3;
   }
@@ -59,45 +60,32 @@ int main (int argc, char *argv[]) {
       printf("Incorrect number of arguments or kind of arguments specified operation\n");
       return 5;
   }
-
-  //need to start running tests here
-  //debating whether imageManip.c should do the printing or whether it should return the modified image
-  //think it should return modified image, that way we can take care of the printing here
-
   
-  //getting the input image
-  Image * inputImg = read_ppm(input);
   Image * outputImg;
   int num_pixels_written;
 
-  /* OK SO HERE'S WHERE THE ERRORS SIGNIFICANTLY BEGIN
-   * basically nothing here is working properly i don't know even if the
-   * inputImg = read_ppm(input) line you see right above is working or not but when
-   * I do that and then I try to print img->rows & img->cols in ppm_io.c, it keeps printing
-   * wrong values. Don't know if this is an error on your end coding the ppm_io.c or an error
-   * from me not passing the file correctly. If you can please look over this because I'm really
-   * iffy on passing the file over correctly and I'm pretty sure it's my fault lmao. If we can nail
-   * this we shouldn't have too too too many problems left but we also gotta make sure that we pass
-   * valgrind and no memory leaks. I kind of don't know what to do about memory leaks because when I
-   * coded the imageManip.c file, I was gonna pass a dynamically allocated array back to project.c. Don't
-   * know if this is a good idea anymore because not sure when we can free arrays then (or maybe it's easy
-   * and I"m just being retarded, as in like we can just go like a* = exposure(blah, blah) and then after doing
-   * write_ppm(a, blah) we can just free(a) okay yea that might be better. Anyways I have 0 clue how to fix this
-   * so if you can please fix the stuff happening here (stuff I was talking about in like the first half). 
-   * I have no clue how we're gonna finish by thursday night anymore honestly cause we still haven't finishehd coding
-   * the thing and we have to debug.
-   * yeeeaaa I was hoping I could see if my functions that I coded as of now are even working but I can't so
-   * I still have 0 clue if I'm doing stuff right or not. Tomorrow will either be shit or hella shit
-   */
-
-  //exposure
+  //exposure (WORKS I THINK)
   if (strcmp(argv[3], "exposure") == 0) {
-
-    //ok this line doesnt work --> leads to core dump
     outputImg = exposure(inputImg, atoi(argv[4]));
+    num_pixels_written = write_ppm(output, outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
+  
+  //blend (DOES NOT FUCKING WORK)
+  Image *inputImg2;
+  if (strcmp(argv[3], "blend") == 0) {
+    FILE *input2 = fopen(argv[4], "r");
+    inputImg2 = read_ppm(input2);
+    outputImg = blend(inputImg, inputImg2, atoi(argv[5]));
+    num_pixels_written = write_ppm(output, outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
 
-    //num_pixels_written = write_ppm(output, outputImg);
-    //printf("%d", num_pixels_written);
+  //zoom_in
+  if (strcmp(argv[3], "zoom_in") == 0) {
+    outputImg = zoom_in(inputImg);
+    num_pixels_written = write_ppm(output, outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
   }
 
 }
