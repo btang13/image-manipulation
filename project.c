@@ -76,8 +76,9 @@ int main (int argc, char *argv[]) {
   if (strcmp(argv[3], "blend") == 0) {
     FILE *input2 = fopen(argv[4], "r");
     inputImg2 = read_ppm(input2);
-    outputImg = blend(inputImg, inputImg2, atoi(argv[5]));
+    outputImg = blend(inputImg, inputImg2, atof(argv[5]));
     num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
     printf("%d pixels were written.\n", num_pixels_written);
   }
 
@@ -85,9 +86,27 @@ int main (int argc, char *argv[]) {
   if (strcmp(argv[3], "zoom_in") == 0) {
     outputImg = zoom_in(inputImg);
     num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
     printf("%d pixels were written.\n", num_pixels_written);
   }
 
+  //zoom_out
+  if (strcmp(argv[3], "zoom_out") == 0) {
+    outputImg = zoom_out(inputImg);
+    num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
+  
+  
+  //swirl
+  if (strcmp(argv[3], "swirl") == 0) {
+    outputImg = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
+    num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
+  
   //pointilism
   if (strcmp(argv[3], "pointilism") == 0) {
     outputImg = pointilism(inputImg);
