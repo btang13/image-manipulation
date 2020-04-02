@@ -11,7 +11,7 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp);
 int zoom_in(Image *img, FILE *fp);
 int zoom_out(Image *img, FILE *fp);
 int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp);
-Image * pointilism(Image *img);
+int pointilism(Image *img, FILE *fp);
 int blur(Image *img, double sigma, FILE *fp);
 
 #endif

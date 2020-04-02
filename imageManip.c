@@ -2,14 +2,9 @@
 
 #define max(a,b) (a>b?a:b)
 #define min(a,b) (a<b?a:b)
-<<<<<<< HEAD
-#define sqr(a) a*a
-#define PI 3.14
-=======
 #define sqr(a) pow(a, 2)
 #define PI 3.14159265358979323846
->>>>>>> af119d87a93e68dbeb8ceaf18f980e998dca769a
-
+ 
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -311,7 +306,6 @@ int pointilism(Image *img, FILE *fp) {
   
   unsigned int totalPixels = img->rows * img->cols;
   //unsigned int *pixels = malloc(totalPixels * sizeof(unsigned int));
-  printf("Total pixels: %u, pixels affected: %u", totalPixels, totalPixels * 3 / 100);
     
   for (unsigned int i = 0; i < totalPixels * 3 / 100; i++) { // loop for 3% of pixels
 
@@ -334,9 +328,11 @@ int pointilism(Image *img, FILE *fp) {
       }
     }
   }
-
-  return img;
   
+  write_ppm(fp, img);
+  free(img->data);
+  free(img);
+  return 0;
 }
 
 
@@ -350,7 +346,6 @@ int blur(Image *img, double sigma, FILE *fp) {
   
   double matrix[dim][dim];
 
-  
   //math for the matrix
   int center;
   int dx, dy;
@@ -380,6 +375,7 @@ int blur(Image *img, double sigma, FILE *fp) {
   int imgMaxRow, imgMaxCol;
   imgMaxRow = (imgNew->rows - 1);
   imgMaxCol = (imgNew->cols - 1);
+
   //bounds for matrix
   int minRow, minCol;
 

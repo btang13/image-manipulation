@@ -134,7 +134,7 @@ int test (int argc, char *argv[]) {
     }
   }
 
-  //pointilism (NEED TO FINISH)
+  //pointilism (WORKING)
   if (strcmp(argv[3], "pointilism") == 0) {
     if (argc != 4) {
       printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
@@ -145,11 +145,14 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      //COMPLETE RETURN STATEMENT HERE (just make it return 0 if it succeeds);
+      answer = pointilism(inputImg, output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
 
-  //blur (NEED TO FINISH)
+  //blur (WORKING)
   if (strcmp(argv[3], "blur") == 0) {
     if (argc != 5) {
       printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
@@ -160,46 +163,18 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      printf("this is blur strength: %f\n", atof(argv[4]));
       answer = blur(inputImg, atof(argv[4]), output);
       fclose(input);
       fclose(output);
       return answer;
     }
   }
-
-  
-  /*
-  //pointilism
-  if (strcmp(argv[3], "pointilism") == 0) {
-    outputImg = pointilism(inputImg);
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
-  }
-
-  //blur
-  if (strcmp(argv[3], "blur") == 0) {
-    outputImg = blur(inputImg, atof(argv[4]));
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
-  }
-  */
-
   
   return 0;
 }
 
 int main (int argc, char *argv[]) {
 
-  //CAN TAKE THIS OUT ONCE WE'RE DONE TESTING
-  int final = test(argc, argv);
-  if (final == 0) {
-    printf("No errors detected\n");
-  }
-
-  //return test(argc, argv); <-- CHANGE RETURN FINAL WITH THIS ONCE WE'RE DONE
-  return final;
+  return test(argc, argv);
   
 }
