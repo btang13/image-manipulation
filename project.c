@@ -160,7 +160,11 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      //COMPLETE RETURN STATEMENT HERE (same as pointilism)
+      printf("this is blur strength: %f\n", atof(argv[4]));
+      answer = blur(inputImg, atof(argv[4]), output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
 

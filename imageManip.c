@@ -3,6 +3,7 @@
 #define max(a,b) (a>b?a:b)
 #define min(a,b) (a<b?a:b)
 #define sqr(a) a*a
+#define PI 3.14
 
 #include <stdio.h>
 #include <math.h>
@@ -331,9 +332,118 @@ Image * pointilism(Image *img) {
   
 }
 
-Image * blur(Image *img, double sigma) {
+int blur(Image *img, double sigma, FILE *fp) {
 
-  sigma++; //replace
-  return img; // replace
+  //finding dimensions of our matrix
+  int dim = (int) (sigma * 10);
+  if (dim % 2 == 0) {
+    dim++;
+  }
+  
+  double matrix[dim][dim];
 
+  
+  //math for the matrix
+  int center;
+  int dx, dy;
+
+  center = (int) (dim / 2);
+  for (int i = 0; i < dim; i++) {
+    for (int j = 0; j < dim; j++) {
+      dx = j - center;
+      dy = i - center;
+      matrix[i][j] = (1.0 / (2.0 * PI * (sigma * sigma))) * exp( -((dx * dx) + (dy * dy)) / (2 * (sigma * sigma)));
+    }
+  }
+
+  //declare our output img
+  Image *imgNew = malloc(sizeof(Image));
+  imgNew->rows = img->rows;
+  imgNew->cols = img->cols;
+
+  Pixel *pix;
+  pix = malloc(imgNew->rows * imgNew->cols * sizeof(Pixel));
+
+
+  //bounds for image
+  int imgMinRow, imgMinCol;
+  imgMinRow = 0;
+  imgMinCol = 0;
+  int imgMaxRow, imgMaxCol;
+  imgMaxRow = (imgNew->rows - 1);
+  imgMaxCol = (imgNew->cols - 1);
+
+
+  //bounds for matrix
+  int minRow, minCol;
+
+  double sumMatrix;
+  double red, green, blue;
+  int x, y, index;
+
+  for (int r = 0; r < img->rows; r++) {
+    for (int c = 0; c < img->cols; c++) {
+
+      sumMatrix = 0;
+      red = 0;
+      green = 0;
+      blue = 0;
+
+      //we must initialize the bounds of our matrix
+      minRow = r - (dim / 2);
+      minCol = c - (dim / 2);
+
+      //find pixel starting position
+      x = minCol;
+      y = minRow;
+      index = (y * imgNew->cols + x);
+
+      for (int i = 0; i < dim; i++) {
+	if (y < imgMinRow) {
+	  y++;
+	  index = (y * imgNew->cols + x);
+	  continue;
+	}
+	if (y > imgMaxRow) {
+	  continue;
+	}
+
+	for (int j = 0; j < dim; j++) {
+	  if (x < imgMinCol) {
+	    x++;
+	    index = (y * imgNew->cols + x);
+	    continue;
+	  }
+	  if (x > imgMaxCol) {
+	    continue;
+	  }
+
+	  sumMatrix += matrix[i][j];
+	  red += (img->data[index].r * matrix[i][j]);
+	  green += (img->data[index].g * matrix[i][j]);
+	  blue += (img->data[index].b * matrix[i][j]);
+
+	  x++;
+	  index = (y * imgNew->cols + x);
+	}
+
+	x = minCol;
+	y++;
+	index = (y * imgNew->cols + x);
+
+      }
+
+      pix[r * imgNew->cols + c].r = (red / sumMatrix);
+      pix[r * imgNew->cols + c].g = (green / sumMatrix);
+      pix[r * imgNew->cols + c].b = (blue / sumMatrix);
+      
+
+    }
+  }
+
+  imgNew->data = pix;
+  write_ppm(fp, imgNew);
+  free(pix);
+  free(imgNew);
+  return 0;
 }

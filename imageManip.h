@@ -12,6 +12,6 @@ int zoom_in(Image *img, FILE *fp);
 int zoom_out(Image *img, FILE *fp);
 int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp);
 Image * pointilism(Image *img);
-Image * blur(Image *img, double sigma);
+int blur(Image *img, double sigma, FILE *fp);
 
 #endif
