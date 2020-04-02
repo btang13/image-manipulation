@@ -36,6 +36,8 @@ int test (int argc, char *argv[]) {
     printf("No operation name was specified, or operation name specified was invalid\n");
     return 4;
   }
+
+  int answer;
   
   //exposure (WORKING)
   if (strcmp(argv[3], "exposure") == 0) {
@@ -48,7 +50,10 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      return (exposure(inputImg, atoi(argv[4]), output));
+      answer = exposure(inputImg, atoi(argv[4]), output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
   
@@ -66,7 +71,12 @@ int test (int argc, char *argv[]) {
       Image *inputImg2;
       FILE *input2 = fopen(argv[4], "r");
       inputImg2 = read_ppm(input2);
-      return (blend(inputImg, inputImg2, atof(argv[5]), output));
+
+      answer = blend(inputImg, inputImg2, atof(argv[5]), output);
+      fclose(input);
+      fclose(input2);
+      fclose(output);
+      return answer;
     }
   }
 
@@ -81,7 +91,10 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      return (zoom_in(inputImg, output));
+      answer = zoom_in(inputImg, output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
 
@@ -96,7 +109,10 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      return (zoom_out(inputImg, output));
+      answer = zoom_out(inputImg, output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
   
@@ -111,7 +127,10 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      return (swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output));
+      answer = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output);
+      fclose(input);
+      fclose(output);
+      return answer;
     }
   }
 
@@ -155,6 +174,7 @@ int test (int argc, char *argv[]) {
   }
   */
 
+  
   return 0;
 }
 
