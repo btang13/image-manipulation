@@ -28,18 +28,18 @@ Image * read_ppm(FILE *fp) {
     return NULL;
   }
 
-  printf("1 is %c", fgetc(fp)); //guaranteed whitespace after P6
+  fgetc(fp); //guaranteed whitespace after P6
 
   // get the comment
   int c;
   c = getc(fp);
-  printf("2 is %c", c);
+  // printf("2 is %c", c);
   if (c == '#') {
     c = getc(fp);
-    printf("3 is %c", c);
+    // printf("3 is %c", c);
     while (c != '\n') {
       c = getc(fp);
-      printf("%c\n", c);
+      // printf("%c\n", c);
     } 
   } else {
     ungetc(c, fp);
@@ -52,10 +52,10 @@ Image * read_ppm(FILE *fp) {
   // not sure how important the whitespace fgetc() is
   //fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &cols);
-  printf("this is # of cols: %d\n", cols);
+  // printf("this is # of cols: %d\n", cols);
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &rows);
-  printf("this is # of rows: %d\n", rows);
+  // printf("this is # of rows: %d\n", rows);
   fgetc(fp); // guaranteed whitespace
   
   unsigned char color_check = 0;

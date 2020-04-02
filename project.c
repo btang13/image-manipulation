@@ -88,4 +88,11 @@ int main (int argc, char *argv[]) {
     printf("%d pixels were written.\n", num_pixels_written);
   }
 
+  //pointilism
+  if (strcmp(argv[3], "pointilism") == 0) {
+    outputImg = pointilism(inputImg);
+    num_pixels_written = write_ppm(output, outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
+  
 }

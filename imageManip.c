@@ -1,5 +1,9 @@
 //imageManip.c
 
+#define max(a,b) (a>b?a:b)
+#define min(a,b) (a<b?a:b)
+#define sqr(a) a*a
+
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -251,4 +255,41 @@ Image * swirl(Image *img, int xCenter, int yCenter, int distortion) {
   //free imgNew
   
   return imgNew;
+}
+
+Image * pointilism(Image *img) {
+  
+  unsigned int totalPixels = img->rows * img->cols;
+  //unsigned int *pixels = malloc(totalPixels * sizeof(unsigned int));
+  for (unsigned int i = 0; i < totalPixels * 3 / 100; i++) { // loop for 3% of pixels
+
+    int row = rand() % img->rows;
+    int col = rand() % img->rows;
+    int rad = (rand() % 5) + 1;
+    Pixel color = img->data[row * img->rows + col];
+
+    // idk how to actually draw the circle so im making a box around the pixel
+    // and figuring out which pixels are in the radius
+    
+    int start_row = min(row - rad, 0);
+    int start_col = min(col - rad, 0);
+
+    for (int j = start_row; j < start_row + 2 * rad; j++) {
+      for (int k = start_col; k < start_col + 2 * rad; k++) {
+	if (sqrt(sqr(j - row) + sqr(k - col)) <= rad) { // distance formula
+	  img->data[j * img->rows + k] = color;
+	}
+      }
+    }
+  }
+
+  return img;
+  
+}
+
+Image * blur(Image *img, double sigma) {
+
+  sigma++; //replace
+  return img; // replace
+
 }
