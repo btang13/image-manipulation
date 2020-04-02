@@ -3,6 +3,7 @@
 #define max(a,b) (a>b?a:b)
 #define min(a,b) (a<b?a:b)
 #define sqr(a) pow(a, 2)
+#define PI 3.14159265358979323846
 
 #include <stdio.h>
 #include <math.h>
@@ -288,7 +289,7 @@ Image * pointilism(Image *img) {
     
     // idk how to actually draw the circle so im making a box around the pixel
     // and figuring out which pixels are in the radius
-    
+
     int start_row = max(row - rad, 0);
     int start_col = max(col - rad, 0);
     
@@ -305,26 +306,39 @@ Image * pointilism(Image *img) {
   
 }
 
-int **gaussian_distr(double sigma) {
+void gaussian_distr(double **g, double sigma, int N) {
   
-  int N = ((int)(10.0 * sigma)) + 1;
-  
-  double **g = (int *)malloc(N);
+  int mid = (N / 2) + 1;
+
+  printf("\n%d\n%ld %ld\n\n", N, sizeof(g), sizeof(g[0]));
   for (int i = 0; i < N; i++) {
-    
-  }
-  
-  for (int i = 0; i < N; i++) {
-    for (int j = 0; j < N; i++) {
-      double g = (1.0 / (2.0 * PI * sqr(sigma))) * exp( -(sqr(dx) + sq(dy)) / (2 * sq(sigma)));
+    for (int j = 0; j < N; j++) {
+      double dx = (double)i - mid;
+      double dy = (double)j - mid;
+      g[j][i] = (1.0 / (2.0 * PI * sqr(sigma))) * exp( -(sqr(dx) + sqr(dy)) / (2 * sqr(sigma)));
+
+      printf("%0.6f ", g[j][i]);
+
+      //printf("%d %d\n", i, j);
       
     }
+    printf("\n");
   }
+  
 }
 
 Image * blur(Image *img, double sigma) {
-
-  sigma++; //replace
+  
+  int N = ((int)(10.0 * sigma));
+  N = N % 2 == 1 ? N : N + 1;
+  
+  double **g;
+  g = (double **)malloc(N * sizeof(double *));
+  for (int i = 0; i < N; i++) {
+    g[i] = (double *)malloc(N * sizeof(double));
+  }
+  
+  gaussian_distr(g, sigma, N);
   return img; // replace
 
 }

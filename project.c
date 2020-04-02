@@ -111,6 +111,15 @@ int main (int argc, char *argv[]) {
   if (strcmp(argv[3], "pointilism") == 0) {
     outputImg = pointilism(inputImg);
     num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
+    printf("%d pixels were written.\n", num_pixels_written);
+  }
+
+  //blur
+  if (strcmp(argv[3], "blur") == 0) {
+    outputImg = blur(inputImg, atof(argv[4]));
+    num_pixels_written = write_ppm(output, outputImg);
+    free(outputImg);
     printf("%d pixels were written.\n", num_pixels_written);
   }
   
