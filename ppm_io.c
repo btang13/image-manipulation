@@ -28,35 +28,36 @@ Image * read_ppm(FILE *fp) {
     return NULL;
   }
 
-  fgetc(fp); //guaranteed whitespace after P6
+  printf("1 is %c", fgetc(fp)); //guaranteed whitespace after P6
 
-  //i added this; this is to check for comment lines in the image
-  //before this, code wasn't picking up the rows/cols correctly
+  // get the comment
   int c;
   c = getc(fp);
-
+  printf("2 is %c", c);
   if (c == '#') {
-    while (getc(fp) != '\n') {
+    c = getc(fp);
+    printf("3 is %c", c);
+    while (c != '\n') {
       c = getc(fp);
       printf("%c\n", c);
-    }
+    } 
+  } else {
     ungetc(c, fp);
   }
-  ungetc(c, fp);
-  ungetc(c, fp);
+  
   //note: i have no clue if this code works properly
   //works for building.ppm & puppy.ppm but i dont have the other pics
   //so idk if it works for those
   
   // not sure how important the whitespace fgetc() is
-  fgetc(fp); // guaranteed whitespace
+  //fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &cols);
   printf("this is # of cols: %d\n", cols);
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &rows);
   printf("this is # of rows: %d\n", rows);
   fgetc(fp); // guaranteed whitespace
-
+  
   unsigned char color_check = 0;
   fscanf(fp, "%hhu", &color_check);
   
@@ -66,7 +67,7 @@ Image * read_ppm(FILE *fp) {
   }
 
   fgetc(fp); // guaranteed whitespace
-
+  
   //pix = malloc(rows * cols * sizeof(Pixel));
   img->data = malloc(rows * cols * sizeof(Pixel));
   img->rows = rows;
