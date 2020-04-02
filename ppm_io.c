@@ -17,8 +17,8 @@
 Image * read_ppm(FILE *fp) {
 
   // check that fp is not NULL
-  assert(fp); 
-
+  assert(fp);
+  
   Image *img = malloc(sizeof(Image));
   //Pixel *pix;
   //char header[18];
@@ -34,12 +34,21 @@ Image * read_ppm(FILE *fp) {
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &rows);
   fgetc(fp); // guaranteed whitespace
+
+
   
+  //HERE'S THE COLOR_CHECK THING IM TALKING ABOUT
+  //this isn't working, at least with building.ppm file
+  //whhen u print it it comes out as 0
+  /*
   unsigned char color_check = 0;
   fscanf(fp, "%hhu", &color_check);
   if (color_check != 255) {
+    printf("%u\n", color_check);
     return NULL;
   }
+  */
+  
 
   fgetc(fp); // guaranteed whitespace
 

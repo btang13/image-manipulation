@@ -2,20 +2,30 @@
 
 #include <stdio.h>
 #include <math.h>
-
+#include <assert.h>
+#include "ppm_io.h" 
+#include "imageManip.h"
+#include <stdlib.h>
 
 //better to make a new array for each?
 
 //exposure
-int exposure(Image *img, int ev) {
+Image * exposure(Image * img, int ev) {
 
+  //DO VOID FOR THE TITLE (since we're not making a new one and just changing the original)
+  //I COMMENTED THIS OUT IDK IF THE CODE IS RIGHT OR WRONG BUT
+  //WE NEED TO FIX THE READ_PPM(FILE INPUT) STUFF FIRST TO SEE IF
+  //THIS IS RIGHT OR WRONG
+  /*
   for (int r = 0; r < img->rows; r++) {
     for (int c = 0; c < img->cols; c++) {
 
       img->data[r * img->cols + c].r = img->data[r * img->cols + c].r * pow(2, ev);
       img->data[r * img->cols + c].g = img->data[r * img->cols + c].g * pow(2, ev);
       img->data[r * img->cols + c].b = img->data[r * img->cols + c].b * pow(2, ev);
+  
 
+      
       //if exceeds 255
       if (img->data[r * img->cols + c].r > 255) {
 	img->data[r * img->cols +c].r = 255;
@@ -28,15 +38,19 @@ int exposure(Image *img, int ev) {
       }
       
       
+      
     }
   }
+  */
+
+
 
   //write_ppm(fp, img);
   
-  return 0;
+  return img;
 }
 
-int alphaBlend(Image *img, Image *img2, int alpha) {
+Image * blend(Image *img, Image *img2, int alpha) {
 
   //figure out which dimensions to use
   int numRows, numCols, numRowsOverlap, numColsOverlap;
@@ -99,7 +113,7 @@ int alphaBlend(Image *img, Image *img2, int alpha) {
 	imgNew->data[r * numColsOverlap + c].b = img2->data[r * numColsOverlap + c].b;
       }
     }
-  }
+  } 
 
 
   //COLS
@@ -136,11 +150,11 @@ int alphaBlend(Image *img, Image *img2, int alpha) {
 
   //need to write ppm
   //and then free the thing
-  return 0;
+  return imgNew;
   
 }
 
-int zoomIn(Image *img) {
+Image * zoom_in(Image *img) {
 
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = img->rows * 2;
@@ -174,10 +188,10 @@ int zoomIn(Image *img) {
   //write ppm
   //free the imgNew
 
-  return 0;
+  return imgNew;
 }
 
-int zoomOut(Image *img) {
+Image * zoom_out(Image *img) {
 
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = (img->rows / 2);
@@ -200,10 +214,10 @@ int zoomOut(Image *img) {
 
   //write ppm
   //free the imgNew
-  return 0;
+  return imgNew;
 }
 
-int swirl(Image *img, int xCenter, int yCenter, int distortion) {
+Image * swirl(Image *img, int xCenter, int yCenter, int distortion) {
 
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = img->rows;
@@ -227,5 +241,5 @@ int swirl(Image *img, int xCenter, int yCenter, int distortion) {
   //write ppm
   //free imgNew
   
-  return 0;
+  return imgNew;
 }
