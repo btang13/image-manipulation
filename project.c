@@ -7,9 +7,6 @@
 #include <stdlib.h>
 
 int test (int argc, char *argv[]) {
-
-  //DELETE THIS LATER
-  printf("this is argc: %d\n", argc);
   
   FILE *input = fopen(argv[1], "r");
   FILE *output = fopen(argv[2], "w");
@@ -51,7 +48,6 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      printf("No errors detected\n");
       return (exposure(inputImg, atoi(argv[4]), output));
     }
   }
@@ -70,7 +66,6 @@ int test (int argc, char *argv[]) {
       Image *inputImg2;
       FILE *input2 = fopen(argv[4], "r");
       inputImg2 = read_ppm(input2);
-      printf("No errors detected\n");
       return (blend(inputImg, inputImg2, atof(argv[5]), output));
     }
   }
@@ -86,7 +81,6 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      printf("No errors detected\n");
       return (zoom_in(inputImg, output));
     }
   }
@@ -102,7 +96,6 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      printf("No errors detected\n");
       return (zoom_out(inputImg, output));
     }
   }
@@ -118,13 +111,39 @@ int test (int argc, char *argv[]) {
 	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      printf("No errors detected\n");
       return (swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output));
     }
   }
 
-  //DO THE ARGC THING FOR THE REST OF THEM ONCE THEY'RE MADE
-  //point: argc != 4 | blur: argc != 5
+  //pointilism (NEED TO FINISH)
+  if (strcmp(argv[3], "pointilism") == 0) {
+    if (argc != 4) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      //COMPLETE RETURN STATEMENT HERE (just make it return 0 if it succeeds);
+    }
+  }
+
+  //blur (NEED TO FINISH)
+  if (strcmp(argv[3], "blur") == 0) {
+    if (argc != 5) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      //COMPLETE RETURN STATEMENT HERE (same as pointilism)
+    }
+  }
 
   
   /*
@@ -141,6 +160,13 @@ int test (int argc, char *argv[]) {
 
 int main (int argc, char *argv[]) {
 
-  return (test(argc, argv));
+  //CAN TAKE THIS OUT ONCE WE'RE DONE TESTING
+  int final = test(argc, argv);
+  if (final == 0) {
+    printf("No errors detected\n");
+  }
+
+  //return test(argc, argv); <-- CHANGE RETURN FINAL WITH THIS ONCE WE'RE DONE
+  return final;
   
 }
