@@ -293,14 +293,16 @@ int **gaussian_distr(double sigma) {
   
   int N = ((int)(10.0 * sigma)) + 1;
   
-  double **g = (int *)malloc(N);
+  double **g = (double **)malloc(N);
   for (int i = 0; i < N; i++) {
-    
+    g[i] = (double *)malloc(N);
   }
   
   for (int i = 0; i < N; i++) {
     for (int j = 0; j < N; i++) {
-      double g = (1.0 / (2.0 * PI * sqr(sigma))) * exp( -(sqr(dx) + sq(dy)) / (2 * sq(sigma)));
+
+      double dx = 
+      g[i][j] = (1.0 / (2.0 * PI * sqr(sigma))) * exp( -(sqr(dx) + sq(dy)) / (2 * sq(sigma)));
       
     }
   }
