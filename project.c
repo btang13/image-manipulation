@@ -6,35 +6,18 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main (int argc, char *argv[]) {
-
-  // argc is the number of command-line arguments
-  // argv contains the arguments
-  // for example:
-  //  ./project trees.ppm trees-exp-half.ppm exposure 0.5
-  //  argc is 4
-  //  argv[0] is "trees.ppm"
-  //  argv[1] is "trees-exp..."
-  //  argv[2] is "exposure"
-  //  argv[3] is "0.5"
-  //THIS IS WRONG ARGV[0] IS ./PROJECT
+int test (int argc, char *argv[]) {
   
-
-  //NOTE: THESE ARE NOT COMPLETE AND WE PROBABLY NEED TO ADD MORE RIGOROUS CHECKS BUT I JUST DID THIS FOR NOW
-  //NOTE: THESE ARE REALLY NOT COMPLETE
-  //open the input image
   FILE *input = fopen(argv[1], "r");
   FILE *output = fopen(argv[2], "w");
   
   //ERROR 1 CHECKER
-  //if there are less than 3 args (so either no input or no output)
   if (argc <= 3) {
     printf("Failed to supply input filename or output filename, or both\n");
     return 1;
   }
 
   //ERROR 2 CHECKER
-  //if can't open input image
   if (input == NULL) {
     printf("Specified input file could not be opened\n");
     return 2;
@@ -54,59 +37,135 @@ int main (int argc, char *argv[]) {
     return 4;
   }
 
-  //ERROR 5 CHECKER
-  //need to add code to check for kinds of arguments (for literally all of these)
-  if ( (strcmp(argv[3], "exposure") == 0 && argc != 5) && (strcmp(argv[3], "blend") == 0 && argc != 6) && (strcmp(argv[3], "zoom_in") == 0 && argc != 4) && (strcmp(argv[3], "zoom_out") == 0 && argc != 4) && (strcmp(argv[3], "pointilism") == 0 && argc != 4) && (strcmp(argv[3], "swirl") == 0 && argc != 7) && (strcmp(argv[3], "blur") == 0 && argc != 5) ) {
-      printf("Incorrect number of arguments or kind of arguments specified operation\n");
-      return 5;
-  }
+  int answer;
   
-  Image * outputImg;
-  int num_pixels_written;
-
-  //exposure (WORKS I THINK)
+  //exposure (WORKING)
   if (strcmp(argv[3], "exposure") == 0) {
-    outputImg = exposure(inputImg, atoi(argv[4]));
-    num_pixels_written = write_ppm(output, outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    if (argc != 5) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      answer = exposure(inputImg, atoi(argv[4]), output);
+      fclose(input);
+      fclose(output);
+      return answer;
+    }
   }
   
-  //blend (DOES NOT FUCKING WORK)
-  Image *inputImg2;
+  //blend (WORKING i think? works like the example on the site)
   if (strcmp(argv[3], "blend") == 0) {
-    FILE *input2 = fopen(argv[4], "r");
-    inputImg2 = read_ppm(input2);
-    outputImg = blend(inputImg, inputImg2, atof(argv[5]));
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    if (argc != 6) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      Image *inputImg2;
+      FILE *input2 = fopen(argv[4], "r");
+      inputImg2 = read_ppm(input2);
+
+      answer = blend(inputImg, inputImg2, atof(argv[5]), output);
+      fclose(input);
+      fclose(input2);
+      fclose(output);
+      return answer;
+    }
   }
 
-  //zoom_in
+  //zoom_inc (WORKING)
   if (strcmp(argv[3], "zoom_in") == 0) {
-    outputImg = zoom_in(inputImg);
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    if (argc != 4) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      answer = zoom_in(inputImg, output);
+      fclose(input);
+      fclose(output);
+      return answer;
+    }
   }
 
-  //zoom_out
+  //zoom_out (WORKING)
   if (strcmp(argv[3], "zoom_out") == 0) {
-    outputImg = zoom_out(inputImg);
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    if (argc != 4) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      answer = zoom_out(inputImg, output);
+      fclose(input);
+      fclose(output);
+      return answer;
+    }
   }
   
-  
-  //swirl
+  //swirl (WORKING)
   if (strcmp(argv[3], "swirl") == 0) {
-    outputImg = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    if (argc != 7) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      answer = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output);
+      fclose(input);
+      fclose(output);
+      return answer;
+    }
   }
+
+  //pointilism (NEED TO FINISH)
+  if (strcmp(argv[3], "pointilism") == 0) {
+    if (argc != 4) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      //COMPLETE RETURN STATEMENT HERE (just make it return 0 if it succeeds);
+    }
+  }
+
+  //blur (NEED TO FINISH)
+  if (strcmp(argv[3], "blur") == 0) {
+    if (argc != 5) {
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      return 5;
+    }
+    else {
+      if (output == NULL) {
+	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	return 7;
+      }
+      //COMPLETE RETURN STATEMENT HERE (same as pointilism)
+    }
+  }
+
   
+  /*
   //pointilism
   if (strcmp(argv[3], "pointilism") == 0) {
     outputImg = pointilism(inputImg);
@@ -122,5 +181,21 @@ int main (int argc, char *argv[]) {
     free(outputImg);
     printf("%d pixels were written.\n", num_pixels_written);
   }
+  */
+
+  
+  return 0;
+}
+
+int main (int argc, char *argv[]) {
+
+  //CAN TAKE THIS OUT ONCE WE'RE DONE TESTING
+  int final = test(argc, argv);
+  if (final == 0) {
+    printf("No errors detected\n");
+  }
+
+  //return test(argc, argv); <-- CHANGE RETURN FINAL WITH THIS ONCE WE'RE DONE
+  return final;
   
 }
