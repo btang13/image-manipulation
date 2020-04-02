@@ -7,7 +7,7 @@
 #include <assert.h>
 #include "ppm_io.h"
 #include <stdlib.h>
-
+#include <ctype.h>
 
 /* Read a PPM-formatted image from a file (assumes fp != NULL).
  * Returns the address of the heap-allocated Image struct it
@@ -15,7 +15,7 @@
  * there is an issue with the file.
  */
 Image * read_ppm(FILE *fp) {
-
+  
   // check that fp is not NULL
   assert(fp);
   
@@ -28,27 +28,42 @@ Image * read_ppm(FILE *fp) {
     return NULL;
   }
 
+  fgetc(fp); //guaranteed whitespace after P6
+
+  //i added this; this is to check for comment lines in the image
+  //before this, code wasn't picking up the rows/cols correctly
+  int c;
+  c = getc(fp);
+
+  if (c == '#') {
+    while (getc(fp) != '\n') {
+      c = getc(fp);
+      printf("%c\n", c);
+    }
+    ungetc(c, fp);
+  }
+  ungetc(c, fp);
+  ungetc(c, fp);
+  //note: i have no clue if this code works properly
+  //works for building.ppm & puppy.ppm but i dont have the other pics
+  //so idk if it works for those
+  
   // not sure how important the whitespace fgetc() is
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &cols);
+  printf("this is # of cols: %d\n", cols);
   fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &rows);
+  printf("this is # of rows: %d\n", rows);
   fgetc(fp); // guaranteed whitespace
 
-
-  
-  //HERE'S THE COLOR_CHECK THING IM TALKING ABOUT
-  //this isn't working, at least with building.ppm file
-  //whhen u print it it comes out as 0
-  /*
   unsigned char color_check = 0;
   fscanf(fp, "%hhu", &color_check);
+  
   if (color_check != 255) {
     printf("%u\n", color_check);
     return NULL;
   }
-  */
-  
 
   fgetc(fp); //guaranteed whitespace
 

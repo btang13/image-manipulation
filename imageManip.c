@@ -9,43 +9,46 @@
 
 //better to make a new array for each?
 
-//exposure
+//exposure (DONE FUCK YEAH)
 Image * exposure(Image * img, int ev) {
 
-  //I COMMENTED THIS OUT IDK IF THE CODE IS RIGHT OR WRONG BUT
-  //WE NEED TO FIX THE READ_PPM(FILE INPUT) STUFF FIRST TO SEE IF
-  //THIS IS RIGHT OR WRONG
-  /*
   for (int r = 0; r < img->rows; r++) {
     for (int c = 0; c < img->cols; c++) {
 
-      img->data[r * img->cols + c].r = img->data[r * img->cols + c].r * pow(2, ev);
-      img->data[r * img->cols + c].g = img->data[r * img->cols + c].g * pow(2, ev);
-      img->data[r * img->cols + c].b = img->data[r * img->cols + c].b * pow(2, ev);
-  
+      double factor = pow(2.0, ev);
 
-      
-      //if exceeds 255
-      if (img->data[r * img->cols + c].r > 255) {
-	img->data[r * img->cols +c].r = 255;
+      int red = img->data[r * img->cols + c].r * factor;
+      int green = img->data[r * img->cols + c].g * factor;
+      int blue = img->data[r * img->cols + c].b * factor;
+
+      //red checker
+      if (red > 255) {
+	img->data[r * img->cols + c].r = 255;
       }
-      if (img->data[r * img->cols + c].g > 255) {
+      else {
+	img->data[r * img->cols + c].r = red;
+      }
+
+      //green checker
+      if (green > 255) {
 	img->data[r * img->cols + c].g = 255;
       }
-      if (img->data[r * img->cols + c].b > 255) {
+      else {
+	img->data[r * img->cols + c].g = green;
+      }
+
+      //blue checker
+      if (blue > 255) {
 	img->data[r * img->cols + c].b = 255;
       }
-      
+      else {
+	img->data[r * img->cols + c].b = blue;
+      }
       
       
     }
   }
-  */
 
-
-
-  //write_ppm(fp, img);
-  
   return img;
 }
 
@@ -55,6 +58,9 @@ Image * blend(Image *img, Image *img2, int alpha) {
   int numRows, numCols, numRowsOverlap, numColsOverlap;
   
   //rows
+  printf("this is img->rows: %d\n", img->rows);
+  printf("this is img2->rows: %d\n", img2->rows);
+  
   if (img->rows > img2->rows) {
     numRows = img->rows;
     numRowsOverlap = img2->rows;
@@ -64,7 +70,13 @@ Image * blend(Image *img, Image *img2, int alpha) {
     numRowsOverlap = img->rows;
   }
 
+  printf("this is numRows: %d\n", numRows);
+  printf("this is numRows Overlap: %d\n", numRowsOverlap);
+
   //cols
+  printf("this is img->cols: %d\n", img->cols);
+  printf("this is img2->cols: %d\n", img2->cols);
+  
   if (img->cols > img2->cols) {
     numCols = img->cols;
     numColsOverlap = img2->cols;
@@ -74,12 +86,14 @@ Image * blend(Image *img, Image *img2, int alpha) {
     numColsOverlap = img->cols;
   }
 
+  printf("this is numCols: %d\n", numCols);
+  printf("this is numCols Overlap: %d\n", numColsOverlap);
+
   //declare new image
   Image *imgNew = malloc(sizeof(Image));
-  imgNew->data = malloc(numRows * numCols * sizeof(Pixel));
   imgNew->rows = numRows;
   imgNew->cols = numCols;
-
+  imgNew->data = malloc(imgNew->rows * imgNew->cols * sizeof(Pixel));
 
   //first we will take care of overlapping elements
   for (int r = 0; r < numRowsOverlap; r++) {
@@ -183,10 +197,6 @@ Image * zoom_in(Image *img) {
       imgNew->data[(2 * r + 1) * (imgNew->cols / 2) + (2 * c + 1)].b = img->data[r * (imgNew->cols / 2) + c].b;
     }
   }
-
-  //write ppm
-  //free the imgNew
-
   return imgNew;
 }
 
