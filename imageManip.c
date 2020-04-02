@@ -59,6 +59,7 @@ int exposure(Image * img, int ev, FILE *fp) {
   return 0;
 }
 
+//DONE? PROB NOT
 int blend(Image *img, Image *img2, float alpha, FILE *fp) {
 
   if (alpha < 0.0 || alpha > 1.0) {
@@ -163,14 +164,13 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
       }
     }
   }
-
   write_ppm(fp, imgNew);
   free(imgNew->data);
   free(imgNew);
   return 0;
-
 }
 
+//zoom_in (DONE)
 int zoom_in(Image *img, FILE *fp) {
 
   Image *imgNew = malloc(sizeof(Image));
@@ -213,6 +213,7 @@ int zoom_in(Image *img, FILE *fp) {
   return 0;
 }
 
+//zoom_out (DONE)
 int zoom_out(Image *img, FILE *fp) {
 
   Image *imgNew = malloc(sizeof(Image));
@@ -256,37 +257,48 @@ int zoom_out(Image *img, FILE *fp) {
   return 0;
 }
 
-//NEED TO FIX SWIRL ASAP
+//swirl (DONE)
 int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp) {
 
+  if (distortion < 1) {
+    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+  
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = img->rows;
   imgNew->cols = img->cols;
   imgNew->data = malloc(imgNew->rows * imgNew->cols * sizeof(Pixel));
 
+  Pixel pix;
   double alpha;
   int xCoord, yCoord;
-  Pixel pix;
   
   for (int r = 0; r < imgNew->rows; r++) {
     for (int c = 0; c < imgNew->cols; c++) {
       
-      alpha = sqrt( pow((r - xCenter), 2) + pow((c - yCenter), 2)) / distortion;
-      //xCoord is column #
-      //yCoord is row #
-
-      xCoord = (r - xCenter) * cos(alpha) - (c - yCenter) * sin(alpha) + xCenter;
-      yCoord = (r - xCenter) * sin(alpha) + (c - yCenter) * cos(alpha) + yCenter;
+      alpha = (sqrt(pow((c - xCenter), 2) + pow((r - yCenter), 2)) / distortion);
+      xCoord = ((c - xCenter) * cos(alpha)) - ((r - yCenter) * sin(alpha)) + xCenter;
+      yCoord = ((c - xCenter) * sin(alpha)) + ((r - yCenter) * cos(alpha)) + yCenter;
 
       pix = img->data[yCoord * img->cols + xCoord];
-
-      imgNew->data[c * imgNew->cols + r] = pix;
+      
+      if ( (xCoord < 0 || xCoord > img->cols) || (yCoord < 0 || yCoord > img->rows) ) {
+	pix.r = 0;
+	pix.g = 0;
+	pix.b = 0;
+      }
+      
+      imgNew->data[r * imgNew->cols + c] = pix;
+      
     }
   }
+  
   write_ppm(fp, imgNew);
   free(imgNew->data);
   free(imgNew);
   return 0;
+  
 }
 
 Image * pointilism(Image *img) {
