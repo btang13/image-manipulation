@@ -2,8 +2,13 @@
 
 #define max(a,b) (a>b?a:b)
 #define min(a,b) (a<b?a:b)
+<<<<<<< HEAD
 #define sqr(a) a*a
 #define PI 3.14
+=======
+#define sqr(a) pow(a, 2)
+#define PI 3.14159265358979323846
+>>>>>>> af119d87a93e68dbeb8ceaf18f980e998dca769a
 
 #include <stdio.h>
 #include <math.h>
@@ -302,27 +307,29 @@ int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp) {
   
 }
 
-Image * pointilism(Image *img) {
+int pointilism(Image *img, FILE *fp) {
   
   unsigned int totalPixels = img->rows * img->cols;
   //unsigned int *pixels = malloc(totalPixels * sizeof(unsigned int));
+  printf("Total pixels: %u, pixels affected: %u", totalPixels, totalPixels * 3 / 100);
+    
   for (unsigned int i = 0; i < totalPixels * 3 / 100; i++) { // loop for 3% of pixels
 
     int row = rand() % img->rows;
-    int col = rand() % img->rows;
+    int col = rand() % img->cols;
     int rad = (rand() % 5) + 1;
-    Pixel color = img->data[row * img->rows + col];
-
+    Pixel color = img->data[row * img->cols + col];
+    
     // idk how to actually draw the circle so im making a box around the pixel
     // and figuring out which pixels are in the radius
-    
-    int start_row = min(row - rad, 0);
-    int start_col = min(col - rad, 0);
 
-    for (int j = start_row; j < start_row + 2 * rad; j++) {
-      for (int k = start_col; k < start_col + 2 * rad; k++) {
-	if (sqrt(sqr(j - row) + sqr(k - col)) <= rad) { // distance formula
-	  img->data[j * img->rows + k] = color;
+    int start_row = max(row - rad, 0);
+    int start_col = max(col - rad, 0);
+    
+    for (int k = start_col; k <= start_col + 2 * rad; k++) {
+      for (int j = start_row; j <= start_row + 2 * rad; j++) {
+	if (sqrt(sqr(j - row) + sqr(k - col)) <= (double) rad) { // distance formula
+	  img->data[j * img->cols + k] = color;
 	}
       }
     }
@@ -331,6 +338,7 @@ Image * pointilism(Image *img) {
   return img;
   
 }
+
 
 int blur(Image *img, double sigma, FILE *fp) {
 
@@ -372,8 +380,6 @@ int blur(Image *img, double sigma, FILE *fp) {
   int imgMaxRow, imgMaxCol;
   imgMaxRow = (imgNew->rows - 1);
   imgMaxCol = (imgNew->cols - 1);
-
-
   //bounds for matrix
   int minRow, minCol;
 
