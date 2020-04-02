@@ -11,11 +11,14 @@
 #include "imageManip.h"
 #include <stdlib.h>
 
-//better to make a new array for each?
+//exposure (DONE)
+int exposure(Image * img, int ev, FILE *fp) {
 
-//exposure (DONE FUCK YEAH)
-Image * exposure(Image * img, int ev) {
-
+  if (ev < -3 || ev > 3) {
+    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+  
   for (int r = 0; r < img->rows; r++) {
     for (int c = 0; c < img->cols; c++) {
 
@@ -40,24 +43,29 @@ Image * exposure(Image * img, int ev) {
       else {
 	img->data[r * img->cols + c].g = green;
       }
-
+      
       //blue checker
       if (blue > 255) {
 	img->data[r * img->cols + c].b = 255;
       }
       else {
 	img->data[r * img->cols + c].b = blue;
+	
       }
-      
-      
     }
   }
-
-  return img;
+  write_ppm(fp, img);
+  free(img);
+  return 0;
 }
 
-Image * blend(Image *img, Image *img2, float alpha) {
+int blend(Image *img, Image *img2, float alpha, FILE *fp) {
 
+  if (alpha < 0.0 || alpha > 1.0) {
+    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+  
   //figure out which dimensions to use
   int numRows, numCols, numRowsOverlap, numColsOverlap;
   
@@ -156,11 +164,14 @@ Image * blend(Image *img, Image *img2, float alpha) {
     }
   }
 
-  return imgNew;
-  
+  write_ppm(fp, imgNew);
+  free(imgNew->data);
+  free(imgNew);
+  return 0;
+
 }
 
-Image * zoom_in(Image *img) {
+int zoom_in(Image *img, FILE *fp) {
 
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = (img->rows * 2);
@@ -197,10 +208,12 @@ Image * zoom_in(Image *img) {
     }
     
   }
-  return imgNew;
+  write_ppm(fp, imgNew);
+  free(imgNew);
+  return 0;
 }
 
-Image * zoom_out(Image *img) {
+int zoom_out(Image *img, FILE *fp) {
 
   Image *imgNew = malloc(sizeof(Image));
 
@@ -237,12 +250,14 @@ Image * zoom_out(Image *img) {
       imgNew->data[r * imgNew->cols + c] = average;
     }
   }
-  
-  return imgNew;
+  write_ppm(fp, imgNew);
+  free(imgNew->data);
+  free(imgNew);
+  return 0;
 }
 
 //NEED TO FIX SWIRL ASAP
-Image * swirl(Image *img, int xCenter, int yCenter, int distortion) {
+int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp) {
 
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = img->rows;
@@ -268,9 +283,10 @@ Image * swirl(Image *img, int xCenter, int yCenter, int distortion) {
       imgNew->data[c * imgNew->cols + r] = pix;
     }
   }
-  
-  
-  return imgNew;
+  write_ppm(fp, imgNew);
+  free(imgNew->data);
+  free(imgNew);
+  return 0;
 }
 
 Image * pointilism(Image *img) {

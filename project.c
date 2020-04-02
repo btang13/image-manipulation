@@ -6,35 +6,18 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main (int argc, char *argv[]) {
+int test (int argc, char *argv[]) {
 
-  // argc is the number of command-line arguments
-  // argv contains the arguments
-  // for example:
-  //  ./project trees.ppm trees-exp-half.ppm exposure 0.5
-  //  argc is 4
-  //  argv[0] is "trees.ppm"
-  //  argv[1] is "trees-exp..."
-  //  argv[2] is "exposure"
-  //  argv[3] is "0.5"
-  //THIS IS WRONG ARGV[0] IS ./PROJECT
-  
-
-  //NOTE: THESE ARE NOT COMPLETE AND WE PROBABLY NEED TO ADD MORE RIGOROUS CHECKS BUT I JUST DID THIS FOR NOW
-  //NOTE: THESE ARE REALLY NOT COMPLETE
-  //open the input image
   FILE *input = fopen(argv[1], "r");
   FILE *output = fopen(argv[2], "w");
   
   //ERROR 1 CHECKER
-  //if there are less than 3 args (so either no input or no output)
   if (argc <= 3) {
     printf("Failed to supply input filename or output filename, or both\n");
     return 1;
   }
 
   //ERROR 2 CHECKER
-  //if can't open input image
   if (input == NULL) {
     printf("Specified input file could not be opened\n");
     return 2;
@@ -55,63 +38,53 @@ int main (int argc, char *argv[]) {
   }
 
   //ERROR 5 CHECKER
-  //need to add code to check for kinds of arguments (for literally all of these)
   if ( (strcmp(argv[3], "exposure") == 0 && argc != 5) && (strcmp(argv[3], "blend") == 0 && argc != 6) && (strcmp(argv[3], "zoom_in") == 0 && argc != 4) && (strcmp(argv[3], "zoom_out") == 0 && argc != 4) && (strcmp(argv[3], "pointilism") == 0 && argc != 4) && (strcmp(argv[3], "swirl") == 0 && argc != 7) && (strcmp(argv[3], "blur") == 0 && argc != 5) ) {
-      printf("Incorrect number of arguments or kind of arguments specified operation\n");
+      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
   }
   
-  Image * outputImg;
-  int num_pixels_written;
-
-  //exposure (WORKS I THINK)
+  //exposure (WORKING)
   if (strcmp(argv[3], "exposure") == 0) {
-    outputImg = exposure(inputImg, atoi(argv[4]));
-    num_pixels_written = write_ppm(output, outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    return (exposure(inputImg, atoi(argv[4]), output));
   }
   
-  //blend (DOES NOT FUCKING WORK)
+  //blend (WORKING)
   Image *inputImg2;
   if (strcmp(argv[3], "blend") == 0) {
     FILE *input2 = fopen(argv[4], "r");
     inputImg2 = read_ppm(input2);
-    outputImg = blend(inputImg, inputImg2, atof(argv[5]));
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    return (blend(inputImg, inputImg2, atof(argv[5]), output));
   }
 
-  //zoom_in
+  //zoom_inc (WORKING)
   if (strcmp(argv[3], "zoom_in") == 0) {
-    outputImg = zoom_in(inputImg);
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    return (zoom_in(inputImg, output));
   }
 
-  //zoom_out
+  //zoom_out (WORKING)
   if (strcmp(argv[3], "zoom_out") == 0) {
-    outputImg = zoom_out(inputImg);
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    return (zoom_out(inputImg, output));
   }
   
-  
-  //swirl
+  //swirl (NEED TO FIX)
   if (strcmp(argv[3], "swirl") == 0) {
-    outputImg = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
-    num_pixels_written = write_ppm(output, outputImg);
-    free(outputImg);
-    printf("%d pixels were written.\n", num_pixels_written);
+    return (swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output));
   }
-  
+
+  /*
   //pointilism
   if (strcmp(argv[3], "pointilism") == 0) {
     outputImg = pointilism(inputImg);
     num_pixels_written = write_ppm(output, outputImg);
     printf("%d pixels were written.\n", num_pixels_written);
   }
+  */
+
+  return 0;
+}
+
+int main (int argc, char *argv[]) {
+
+  return (test(argc, argv));
   
 }
