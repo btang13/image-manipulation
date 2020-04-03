@@ -23,12 +23,21 @@ Image * read_ppm(FILE *fp) {
   //Pixel *pix;
   //char header[18];
   int rows, cols;
+
+  char a, ab, abc;
+
+  a = fgetc(fp);
+  ab = fgetc(fp);
+  abc = fgetc(fp);
   
-  if (fgetc(fp) != 'P' || fgetc(fp) != '6') {
+  printf("%c\n", a);
+  printf("%c\n", ab);
+  printf("%c\n", abc);
+  
+  if (a != 'P' || ab != '6' || !isspace(abc)) {
     return NULL;
   }
-
-  fgetc(fp); //guaranteed whitespace after P6
+ 
 
   // get the comment
   int c;
@@ -45,10 +54,6 @@ Image * read_ppm(FILE *fp) {
     ungetc(c, fp);
   }
   
-  //note: i have no clue if this code works properly
-  //works for building.ppm & puppy.ppm but i dont have the other pics
-  //so idk if it works for those
-  
   // not sure how important the whitespace fgetc() is
   //fgetc(fp); // guaranteed whitespace
   fscanf(fp, "%d", &cols);
@@ -57,24 +62,35 @@ Image * read_ppm(FILE *fp) {
   fscanf(fp, "%d", &rows);
   // printf("this is # of rows: %d\n", rows);
   fgetc(fp); // guaranteed whitespace
+
+  if (cols < 0 || rows < 0) {
+    fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    exit(3);
+  }
   
-  unsigned char color_check = 0;
-  fscanf(fp, "%hhu", &color_check);
+  int color_check = 0;
+  fscanf(fp, "%d", &color_check);
   
   if (color_check != 255) {
-    printf("%u\n", color_check);
-    return NULL;
+    fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    exit(3);
   }
 
   fgetc(fp); // guaranteed whitespace
   
   //pix = malloc(rows * cols * sizeof(Pixel));
-  img->data = malloc(rows * cols * sizeof(Pixel));
   img->rows = rows;
   img->cols = cols;
-  fread(img->data, sizeof(Pixel), cols * rows, fp);
+  img->data = malloc(img->rows * img->cols * sizeof(Pixel));
+  //img->data = (Pixel*) malloc(img->rows * img->cols * sizeof(Pixel));
+  int count = fread(img->data, sizeof(Pixel), cols * rows, fp);
   //fwrite(img->data, sizeof(Pixel), sizeof(pix), pix);
   
+  if (count != (rows * cols)) {
+    fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    exit(3);
+  }
+
   return img;
   
 }

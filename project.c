@@ -12,14 +12,14 @@ int test (int argc, char *argv[]) {
   FILE *output = fopen(argv[2], "w");
   
   //ERROR 1 CHECKER
-  if (argc <= 3) {
-    printf("Failed to supply input filename or output filename, or both\n");
+  if (argc < 3) {
+    fprintf(stderr, "Failed to supply input filename or output filename, or both\n");
     return 1;
   }
 
   //ERROR 2 CHECKER
   if (input == NULL) {
-    printf("Specified input file could not be opened\n");
+    fprintf(stderr, "Specified input file could not be opened\n");
     return 2;
   }
 
@@ -27,27 +27,31 @@ int test (int argc, char *argv[]) {
 
   //ERROR 3 CHECKER
   if (inputImg == NULL) {
-    printf("Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    printf("PENIS");
+    printf("WHAT THE FUCK\n");
     return 3;
   }
+
   
   //ERROR 4 CHECKER
   if ( (strcmp(argv[3], "exposure") != 0) && (strcmp(argv[3], "blend") != 0) && (strcmp(argv[3], "zoom_in") != 0) && (strcmp(argv[3], "zoom_out") != 0) && (strcmp(argv[3], "pointilism") != 0) && (strcmp(argv[3], "swirl") != 0) && (strcmp(argv[3], "blur") != 0) ) {
-    printf("No operation name was specified, or operation name specified was invalid\n");
+    fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
     return 4;
   }
+  
 
   int answer;
   
   //exposure (WORKING)
   if (strcmp(argv[3], "exposure") == 0) {
     if (argc != 5) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       answer = exposure(inputImg, atoi(argv[4]), output);
@@ -60,19 +64,24 @@ int test (int argc, char *argv[]) {
   //blend (WORKING i think? works like the example on the site)
   if (strcmp(argv[3], "blend") == 0) {
     if (argc != 6) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       Image *inputImg2;
       FILE *input2 = fopen(argv[4], "r");
-      inputImg2 = read_ppm(input2);
 
+      if (input2 == NULL) {
+	fprintf(stderr, "Specified input file could not be opened\n");
+	return 2;
+      }
+      inputImg2 = read_ppm(input2);
       answer = blend(inputImg, inputImg2, atof(argv[5]), output);
+      free(inputImg2);
       fclose(input);
       fclose(input2);
       fclose(output);
@@ -83,12 +92,12 @@ int test (int argc, char *argv[]) {
   //zoom_inc (WORKING)
   if (strcmp(argv[3], "zoom_in") == 0) {
     if (argc != 4) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       answer = zoom_in(inputImg, output);
@@ -101,12 +110,12 @@ int test (int argc, char *argv[]) {
   //zoom_out (WORKING)
   if (strcmp(argv[3], "zoom_out") == 0) {
     if (argc != 4) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       answer = zoom_out(inputImg, output);
@@ -119,14 +128,21 @@ int test (int argc, char *argv[]) {
   //swirl (WORKING)
   if (strcmp(argv[3], "swirl") == 0) {
     if (argc != 7) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
+      //check if argv[6] is an int
+      double intTest = strtod(argv[6], NULL);
+      if ((int) intTest != intTest) {
+	fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+	return 6;
+      }
+      
       answer = swirl(inputImg, atoi(argv[4]), atoi(argv[5]), atoi(argv[6]), output);
       fclose(input);
       fclose(output);
@@ -137,12 +153,12 @@ int test (int argc, char *argv[]) {
   //pointilism (WORKING)
   if (strcmp(argv[3], "pointilism") == 0) {
     if (argc != 4) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       answer = pointilism(inputImg, output);
@@ -155,12 +171,12 @@ int test (int argc, char *argv[]) {
   //blur (WORKING)
   if (strcmp(argv[3], "blur") == 0) {
     if (argc != 5) {
-      printf("Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
+      fprintf(stderr, "Incorrect number of arguments or kinds of arguments specified for the specified operation\n");
       return 5;
     }
     else {
       if (output == NULL) {
-	printf("Specified output file could not be opened for writing, or writing output somehow fails\n");
+	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
       answer = blur(inputImg, atof(argv[4]), output);
@@ -175,6 +191,7 @@ int test (int argc, char *argv[]) {
 
 int main (int argc, char *argv[]) {
 
-  return test(argc, argv);
+  int final = test(argc, argv);
+  return final;
   
 }

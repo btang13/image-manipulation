@@ -1,0 +1,279 @@
+commit 2a7c8ac31b9f8ddf6f9e0ca7fabc9efd5c9e3837
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 16:32:12 2020 -0400
+
+    all functions working? maybe not blend but if it works that'd be great. NEED TO DO VALGRIND
+
+commit a2f8d918bd834d867fd756fb07d767fd24d8ceda
+Merge: 6a54f23 af119d8
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 16:22:55 2020 -0400
+
+    fixed conflicts
+
+commit 6a54f23653e9f8ee6fea6f4bafaa2e05686147f5
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 16:17:11 2020 -0400
+
+    how is this merging shit gonna work
+
+commit af119d87a93e68dbeb8ceaf18f980e998dca769a
+Merge: 636fac9 54dec8a
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 15:39:58 2020 -0400
+
+    Merge branch 'master' of https://bitbucket.org/btang13/midterm-project
+
+commit 636fac92f29cf7672363c1a7fbea2ccce9caec90
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 15:39:36 2020 -0400
+
+    test
+
+commit 54dec8a222321a377f401f4be081d2964fb7734e
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 15:20:08 2020 -0400
+
+    added fclose() statements
+
+commit d0d00f841ba776e0f93480f714baa75864af0383
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 08:18:20 2020 -0400
+
+    left areas for you to put ur return statements for pointilism and blur
+
+commit 065025952e69fc567a750cac319ffd8eaf1ac6bb
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 08:08:20 2020 -0400
+
+    i got all my functions working :) maybe not blur and i got the tests a lot more rigorous too and took code out of main()
+
+commit 78e7b6f984df7ad3ee39d3aa036fc9f5af9e0736
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 06:10:31 2020 -0400
+
+    please do not fuck up my files for the love of fucking god
+
+commit de1da81403d8ba90649b54fe5f996669d918b462
+Merge: c6a1d4d 8b0e346
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 05:07:16 2020 -0400
+
+    Merge branch 'master' of https://bitbucket.org/btang13/midterm-project
+
+commit c6a1d4d40ce2f300b1e0d40fd0ad1adaf5454080
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 05:06:54 2020 -0400
+
+    pointilism final
+
+commit 8b0e3466357a1c8434cb8ddafb4351a8e8033edf
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Thu Apr 2 04:57:22 2020 -0400
+
+    fixed all of mine except swirl. blend might be broken hope not.
+
+commit badd7b68ee5d110659f07eba823564585409c4eb
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 02:04:42 2020 -0400
+
+    added code for pointilism
+
+commit 180636656ec7e2bcb112874808fb1ecc72c80f9d
+Author: Brandon Tang <you@somewhere.com>
+Date:   Thu Apr 2 01:58:20 2020 -0400
+
+    added code for pointilism
+
+commit b61f1247496fb771ff030b654ed28ee9c573c9aa
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 23:59:34 2020 -0400
+
+    comment ignore works assuming comments are followed by \n
+
+commit b01b5ab044241b02ccba5f3622d217f8e5b07fe2
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 22:43:10 2020 -0400
+
+    trees
+
+commit 428e9246e07875d2fe5b8c15d57a152417ffcacd
+Merge: bd3cae7 c9b6515
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 20:48:39 2020 -0400
+
+    please work
+
+commit bd3cae7a7c002cc7d7d39dfa92cc35d7e0aced53
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 20:45:17 2020 -0400
+
+    need to see if comment issue is working or not.
+
+commit c9b65152d65ad46db8d04dead6b2ba1948939208
+Merge: 045b703 4bc2729
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 20:41:33 2020 -0400
+
+    Merge branch 'master' of https://bitbucket.org/btang13/midterm-project
+
+commit 045b703affc85cf21e339a69c99cd884f5964ebd
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 20:41:01 2020 -0400
+
+    phillip is stuck again
+
+commit 4bc2729072e9da0df3af1760d0f7c9133219c051
+Author: Philip Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 17:39:14 2020 +0000
+
+    imageManip.c edited online with Bitbucket
+
+commit 277351bab9cf9d0f1c2e7fd01b0c0c3351d8b54a
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 07:11:12 2020 -0400
+
+    we are fucked. tried to test code w/ project.c but nothing is going as planned and i can't test anything zzz. please help
+
+commit 99938904b267e49025cd50ff9d3ba9ab90c8a505
+Merge: 479ed88 b4c3f93
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 06:10:20 2020 -0400
+
+    working on project.c
+
+commit b4c3f931e1238880101a208e18875feaeaaa2f0d
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 04:20:20 2020 -0400
+
+    phillip is stuck
+
+commit 479ed88b9ede82aa2520a20094b210a711962cdd
+Merge: d3e0668 4560d5b
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 04:04:36 2020 -0400
+
+    wtf is going on
+
+commit d3e06680ff975c6711a2fea41c0cb7f1601b3f72
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Wed Apr 1 04:02:32 2020 -0400
+
+    fixing
+
+commit 4560d5b6e669b98b9062bbb6ac123b9ec8f74b0f
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 04:00:59 2020 -0400
+
+    add some helpful comments
+
+commit 8b28625644e0e995210e0a5b0a63e75abf371ca9
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:52:26 2020 -0400
+
+    read_ppm() works, copied ppm_io files over from starter code folder
+
+commit 7cab0072d5a56101555550eff6ea4e4a5ce61ebe
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:47:34 2020 -0400
+
+    forgot convert
+
+commit 2bb6443a4ed43162621db7b72cf3b81341b9a628
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:46:58 2020 -0400
+
+    debugging time
+
+commit ebd6df1aba36be526edb507ff9b672b86f239f73
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:37:46 2020 -0400
+
+    convert ppm to jpg so bitbucket can show
+
+commit 94f5b81e2be59bbecfbdff95e225b0be30565a54
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:36:32 2020 -0400
+
+    hopefully a kitten
+
+commit e6e5e97e24b12e60baad05cc2fde25169fb48c0f
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:35:30 2020 -0400
+
+    i didn't compile lmao
+
+commit 32be723bd21f8a499b03c0a0529f0fc402f4dff2
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:33:52 2020 -0400
+
+    changed blue demo to red i think
+
+commit 7aad2c8a79e00647b043917b7954f677af3b7830
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 03:17:12 2020 -0400
+
+    kitten picture for testing
+
+commit c88267fa004ee581e86e26dafdf4d6b91325470e
+Author: Brandon Tang <you@somewhere.com>
+Date:   Wed Apr 1 02:55:53 2020 -0400
+
+    added jpeg version of demo ppm
+
+commit baf1bbbbb06ed5621fc10c5c5a0c1683744c562e
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Tue Mar 31 07:03:55 2020 -0400
+
+    finished swirl effect too hohpefully no bugs lmao
+
+commit 4a729410c80a3f7718cd7ea46d5054e7bffcf5c7
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Tue Mar 31 06:02:24 2020 -0400
+
+    finished 4 filters; not bug tested, need to write 3 more overall
+
+commit c9840d7bdc6f3352fbec579d6a32672fdc503b71
+Author: Brandon Tang <you@somewhere.com>
+Date:   Tue Mar 31 02:05:30 2020 -0400
+
+    fixed bugs in file read
+
+commit 30396774ee86419bd06ca0cb0c9e5dc46b9ce891
+Merge: 40aa993 b2be4be
+Author: Brandon Tang <you@somewhere.com>
+Date:   Tue Mar 31 00:25:28 2020 -0400
+
+    Merge branch 'master' of https://bitbucket.org/btang13/midterm-project
+    
+    merge makefile update and ppm io update
+
+commit 40aa993d614ef3223710e8406c19d396b4f966da
+Author: Brandon Tang <you@somewhere.com>
+Date:   Tue Mar 31 00:25:02 2020 -0400
+
+    implemented ppm file read
+
+commit b2be4beb664199ea68e1df50a4fa4844be859157
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Mon Mar 30 22:19:38 2020 -0400
+
+    here's the files
+
+commit 734af4103fb9d2bcc658732a1f81f545398c98c6
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Mon Mar 30 03:27:59 2020 -0400
+
+    created Makefile
+
+commit 970d78502872aae2e6e14b8f9ef817245e28d881
+Author: Philip J Kim <pkim64@jh.edu>
+Date:   Fri Mar 27 19:25:03 2020 -0400
+
+    moved the files from public respository into starter_code folder
+
+commit 510d1028abea520c0f29e7b588b6c14d05d70dab
+Author: Brandon Tang <btang13@jh.edu>
+Date:   Fri Mar 20 01:21:32 2020 +0000
+
+    Initial commit

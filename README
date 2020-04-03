@@ -1,0 +1,9 @@
+# README #
+
+Philip Kim pkim64
+Brandon Tang btang13
+
+For this project, we implemented 7 different photo editing functions.
+This was done through dynamically allocating arrays to edit PPM images.
+
+

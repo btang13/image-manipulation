@@ -16,7 +16,7 @@
 int exposure(Image * img, int ev, FILE *fp) {
 
   if (ev < -3 || ev > 3) {
-    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
     return 6;
   }
   
@@ -56,6 +56,7 @@ int exposure(Image * img, int ev, FILE *fp) {
     }
   }
   write_ppm(fp, img);
+  free(img->data);
   free(img);
   return 0;
 }
@@ -64,7 +65,7 @@ int exposure(Image * img, int ev, FILE *fp) {
 int blend(Image *img, Image *img2, float alpha, FILE *fp) {
 
   if (alpha < 0.0 || alpha > 1.0) {
-    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
     return 6;
   }
   
@@ -101,10 +102,9 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   //first we will take care of overlapping elements
   for (int r = 0; r < numRowsOverlap; r++) {
     for (int c = 0; c < numColsOverlap; c++) {
-      imgNew->data[r * numColsOverlap + c].r = alpha * img->data[r * numColsOverlap + c].r + (1 - alpha) * img2->data[r * numColsOverlap + c].r;
-      imgNew->data[r * numColsOverlap + c].g = alpha * img->data[r * numColsOverlap + c].g + (1 - alpha) * img2->data[r * numColsOverlap + c].g;
-      imgNew->data[r * numColsOverlap + c].b = alpha * img->data[r * numColsOverlap + c].b + (1 - alpha) * img2->data[r * numColsOverlap + c].b;
-      
+      imgNew->data[r * imgNew->cols + c].r = alpha * img->data[r * img->cols + c].r + (1 - alpha) * img2->data[r * img2->cols + c].r;
+      imgNew->data[r * imgNew->cols + c].g = alpha * img->data[r * img->cols + c].g + (1 - alpha) * img2->data[r * img2->cols + c].g;
+      imgNew->data[r * imgNew->cols + c].b = alpha * img->data[r * img->cols + c].b + (1 - alpha) * img2->data[r * img2->cols + c].b;
     }
   }
 
@@ -113,9 +113,9 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   if (img->rows > img2->rows) {
     for (int r = numRowsOverlap; r < imgNew->rows; r++) {
       for (int c = 0; c < numColsOverlap; c++) {
-	imgNew->data[r * numColsOverlap + c].r = img->data[r * numColsOverlap + c].r;
-	imgNew->data[r * numColsOverlap + c].g = img->data[r * numColsOverlap + c].g;
-	imgNew->data[r * numColsOverlap + c].b = img->data[r * numColsOverlap + c].b;
+	imgNew->data[r * imgNew->cols + c].r = img->data[r * img->cols + c].r;
+	imgNew->data[r * imgNew->cols + c].g = img->data[r * img->cols + c].g;
+	imgNew->data[r * imgNew->cols + c].b = img->data[r * img->cols + c].b;
       }
     }
   }
@@ -124,9 +124,9 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   if (img2->rows > img->rows) {
     for (int r = numRowsOverlap; r < imgNew->rows; r++) {
       for (int c = 0; c < numColsOverlap; c++) {
-	imgNew->data[r * numColsOverlap + c].r = img2->data[r * numColsOverlap + c].r;
-	imgNew->data[r * numColsOverlap + c].g = img2->data[r * numColsOverlap + c].g;
-	imgNew->data[r * numColsOverlap + c].b = img2->data[r * numColsOverlap + c].b;
+	imgNew->data[r * imgNew->cols + c].r = img2->data[r * img2->cols + c].r;
+	imgNew->data[r * imgNew->cols + c].g = img2->data[r * img2->cols + c].g;
+	imgNew->data[r * imgNew->cols + c].b = img2->data[r * img2->cols + c].b;
       }
     }
   } 
@@ -137,9 +137,9 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   if (img->cols > img2->cols) {
     for (int r = 0; r < numRowsOverlap; r++) {
       for (int c = numColsOverlap; c < imgNew->cols; c++) {
-	imgNew->data[r * imgNew->cols + c].r = img->data[r * imgNew->cols + c].r;
-	imgNew->data[r * imgNew->cols + c].g = img->data[r * imgNew->cols + c].g;
-	imgNew->data[r * imgNew->cols + c].b = img->data[r * imgNew->cols + c].b;
+	imgNew->data[r * imgNew->cols + c].r = img->data[r * img->cols + c].r;
+	imgNew->data[r * imgNew->cols + c].g = img->data[r * img->cols + c].g;
+	imgNew->data[r * imgNew->cols + c].b = img->data[r * img->cols + c].b;
       }
     }
   }
@@ -148,9 +148,9 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   if (img2->cols > img->cols) {
     for (int r = 0; r < numRowsOverlap; r++) {
       for (int c = numColsOverlap; c < imgNew->cols; c++) {
-	imgNew->data[r * imgNew->cols + c].r = img2->data[r * imgNew->cols + c].r;
-	imgNew->data[r * imgNew->cols + c].g = img2->data[r * imgNew->cols + c].g;
-	imgNew->data[r * imgNew->cols + c].b = img2->data[r * imgNew->cols + c].b;
+	imgNew->data[r * imgNew->cols + c].r = img2->data[r * img2->cols + c].r;
+	imgNew->data[r * imgNew->cols + c].g = img2->data[r * img2->cols + c].g;
+	imgNew->data[r * imgNew->cols + c].b = img2->data[r * img2->cols + c].b;
       }
     }
   }
@@ -168,6 +168,13 @@ int blend(Image *img, Image *img2, float alpha, FILE *fp) {
   write_ppm(fp, imgNew);
   free(imgNew->data);
   free(imgNew);
+
+  free(img->data);
+  free(img);
+
+  free(img2->data);
+  
+  
   return 0;
 }
 
@@ -210,7 +217,12 @@ int zoom_in(Image *img, FILE *fp) {
     
   }
   write_ppm(fp, imgNew);
+  free(imgNew->data);
   free(imgNew);
+
+  free(img->data);
+  free(img);
+  
   return 0;
 }
 
@@ -255,42 +267,61 @@ int zoom_out(Image *img, FILE *fp) {
   write_ppm(fp, imgNew);
   free(imgNew->data);
   free(imgNew);
+
+  free(img->data);
+  free(img);
   return 0;
 }
 
 //swirl (DONE)
 int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp) {
 
+  if (xCenter < 0) {
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+
+  if (yCenter < 0) {
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+
+  if (xCenter > img->cols) {
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+
+  if (yCenter > img->rows) {
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    return 6;
+  }
+  
   if (distortion < 1) {
-    printf("Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+    fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
     return 6;
   }
   
   Image *imgNew = malloc(sizeof(Image));
   imgNew->rows = img->rows;
   imgNew->cols = img->cols;
-  imgNew->data = malloc(imgNew->rows * imgNew->cols * sizeof(Pixel));
-
-  Pixel pix;
-  double alpha;
-  int xCoord, yCoord;
+  Pixel * pix2 = calloc(img->cols * img->rows, sizeof(Pixel));
+  imgNew->data = pix2;
   
-  for (int r = 0; r < imgNew->rows; r++) {
-    for (int c = 0; c < imgNew->cols; c++) {
-      
-      alpha = (sqrt(pow((c - xCenter), 2) + pow((r - yCenter), 2)) / distortion);
-      xCoord = ((c - xCenter) * cos(alpha)) - ((r - yCenter) * sin(alpha)) + xCenter;
-      yCoord = ((c - xCenter) * sin(alpha)) + ((r - yCenter) * cos(alpha)) + yCenter;
+  double alpha;
+  int coord0, coord1;
+  Pixel pix;
+  
+  for (int r = 0; r < img->rows; r++) {
+    for (int c = 0; c < img->cols; c++) {
 
-      pix = img->data[yCoord * img->cols + xCoord];
-      
-      if ( (xCoord < 0 || xCoord > img->cols) || (yCoord < 0 || yCoord > img->rows) ) {
-	pix.r = 0;
-	pix.g = 0;
-	pix.b = 0;
+      alpha = sqrt(pow(c - xCenter, 2) + pow(r - yCenter, 2)) / distortion;
+      coord0 = ((c - xCenter) * cos(alpha) - (r - yCenter) * sin(alpha) + xCenter);
+      coord1 = ((c - xCenter) * sin(alpha) + (r - yCenter) * cos(alpha) + yCenter);
+
+      if ((coord0 < img->cols) && (coord1 < img->rows) && (coord0 >= 0) && (coord1 >= 0)) {
+	pix = img->data[coord1 * img->cols + coord0];
+	imgNew->data[r * imgNew->cols + c] = pix;
       }
-      
-      imgNew->data[r * imgNew->cols + c] = pix;
       
     }
   }
@@ -298,37 +329,36 @@ int swirl(Image *img, int xCenter, int yCenter, int distortion, FILE *fp) {
   write_ppm(fp, imgNew);
   free(imgNew->data);
   free(imgNew);
+
+  free(img->data);
+  free(img);
+  
   return 0;
   
 }
 
 int pointilism(Image *img, FILE *fp) {
-  
-  unsigned int totalPixels = img->rows * img->cols;
-  //unsigned int *pixels = malloc(totalPixels * sizeof(unsigned int));
-    
-  for (unsigned int i = 0; i < totalPixels * 3 / 100; i++) { // loop for 3% of pixels
 
-    int row = rand() % img->rows;
-    int col = rand() % img->cols;
-    int rad = (rand() % 5) + 1;
-    Pixel color = img->data[row * img->cols + col];
-    
-    // idk how to actually draw the circle so im making a box around the pixel
-    // and figuring out which pixels are in the radius
+  int x, y, radius;
+  Pixel pix;
 
-    int start_row = max(row - rad, 0);
-    int start_col = max(col - rad, 0);
-    
-    for (int k = start_col; k <= start_col + 2 * rad; k++) {
-      for (int j = start_row; j <= start_row + 2 * rad; j++) {
-	if (sqrt(sqr(j - row) + sqr(k - col)) <= (double) rad) { // distance formula
-	  img->data[j * img->cols + k] = color;
+  for (int i = 0; i < img->rows * img->cols * 0.03; i++) {
+    x = rand() % img->cols;
+    y = rand() % img->rows;
+
+    radius = rand() % 5 + 1;
+    pix = img->data[y * img->cols + x];
+    for (int r = y - radius; r <= y + radius; r++) {
+      for (int c = x - radius; c <= x + radius; c++) {
+	if (r>=0 && c>=0 && r<img->rows && c<img->cols && ( (r-y)*(r-y) + (c-x)*(c-x) <= (radius*radius) )) {
+	    img->data[r * img->cols + c].r = pix.r;
+	    img->data[r * img->cols + c].g = pix.g;
+	    img->data[r * img->cols + c].b = pix.b;
 	}
       }
     }
-  }
-  
+  }	  	  
+	  
   write_ppm(fp, img);
   free(img->data);
   free(img);
@@ -338,6 +368,10 @@ int pointilism(Image *img, FILE *fp) {
 
 int blur(Image *img, double sigma, FILE *fp) {
 
+  if (sigma < 0) {
+    return 6;
+  }
+  
   //finding dimensions of our matrix
   int dim = (int) (sigma * 10);
   if (dim % 2 == 0) {
@@ -447,5 +481,7 @@ int blur(Image *img, double sigma, FILE *fp) {
   write_ppm(fp, imgNew);
   free(pix);
   free(imgNew);
+  free(img->data);
+  free(img);
   return 0;
 }
