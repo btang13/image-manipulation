@@ -29,22 +29,22 @@ int test (int argc, char *argv[]) {
   //ERROR 3 CHECKER
   if (inputImg == NULL) {
     fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
-    printf("PENIS");
-    printf("WHAT THE FUCK\n");
     return 3;
   }
 
   
   //ERROR 4 CHECKER
+  if (argc == 3) {
+    fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
+    return 4;
+  }
+
   if ( (strcmp(argv[3], "exposure") != 0) && (strcmp(argv[3], "blend") != 0) && (strcmp(argv[3], "zoom_in") != 0) && (strcmp(argv[3], "zoom_out") != 0) && (strcmp(argv[3], "pointilism") != 0) && (strcmp(argv[3], "swirl") != 0) && (strcmp(argv[3], "blur") != 0) ) {
     fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
     return 4;
   }
 
-  if (argc == 3) {
-    fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
-    return 4;
-  }
+  
   
 
   int answer;
@@ -104,7 +104,7 @@ int test (int argc, char *argv[]) {
       
       char* lastptr;
       errno = 0;
-      double blendFactor = strtod(argv[4], &lastptr);
+      double blendFactor = strtod(argv[5], &lastptr);
       if (errno != 0 || *lastptr != '\0') {
         fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
         return 6;
