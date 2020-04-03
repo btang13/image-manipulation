@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "ppm_io.h"
 
-int exposure(Image * img, int ev, FILE *fp);
+int exposure(Image * img, float ev, FILE *fp);
 int blend(Image *img, Image *img2, float alpha, FILE *fp);
 int zoom_in(Image *img, FILE *fp);
 int zoom_out(Image *img, FILE *fp);

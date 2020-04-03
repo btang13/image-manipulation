@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 //exposure (DONE)
-int exposure(Image * img, int ev, FILE *fp) {
+int exposure(Image * img, float ev, FILE *fp) {
 
   if (ev < -3 || ev > 3) {
     fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");

@@ -5,6 +5,7 @@
 #include "ppm_io.h"
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 int test (int argc, char *argv[]) {
   
@@ -39,6 +40,11 @@ int test (int argc, char *argv[]) {
     fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
     return 4;
   }
+
+  if (argc == 3) {
+    fprintf(stderr, "No operation name was specified, or operation name specified was invalid\n");
+    return 4;
+  }
   
 
   int answer;
@@ -54,7 +60,16 @@ int test (int argc, char *argv[]) {
 	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      answer = exposure(inputImg, atoi(argv[4]), output);
+      
+      char* lastptr;
+      errno = 0;
+      double exposureFactor = strtod(argv[4], &lastptr);
+      if (errno != 0 || *lastptr != '\0') {
+	fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+	return 6;
+      }
+      
+      answer = exposure(inputImg, exposureFactor, output);
       fclose(input);
       fclose(output);
       return answer;
@@ -79,8 +94,23 @@ int test (int argc, char *argv[]) {
 	fprintf(stderr, "Specified input file could not be opened\n");
 	return 2;
       }
+      
       inputImg2 = read_ppm(input2);
-      answer = blend(inputImg, inputImg2, atof(argv[5]), output);
+
+      if (inputImg2 == NULL) {
+	fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+	return 3;
+      }
+      
+      char* lastptr;
+      errno = 0;
+      double blendFactor = strtod(argv[4], &lastptr);
+      if (errno != 0 || *lastptr != '\0') {
+        fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+        return 6;
+      } 
+      
+      answer = blend(inputImg, inputImg2, blendFactor, output);
       free(inputImg2);
       fclose(input);
       fclose(input2);
@@ -179,7 +209,16 @@ int test (int argc, char *argv[]) {
 	fprintf(stderr, "Specified output file could not be opened for writing, or writing output somehow fails\n");
 	return 7;
       }
-      answer = blur(inputImg, atof(argv[4]), output);
+
+      char* lastptr;
+      errno = 0;
+      double blurFactor = strtod(argv[4], &lastptr);
+      if (errno != 0 || *lastptr != '\0') {
+        fprintf(stderr, "Arguments for the specified operation were out of range for the given input image, or otherwise senseless\n");
+        return 6;
+      } 
+      
+      answer = blur(inputImg, blurFactor, output);
       fclose(input);
       fclose(output);
       return answer;

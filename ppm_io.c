@@ -29,11 +29,7 @@ Image * read_ppm(FILE *fp) {
   a = fgetc(fp);
   ab = fgetc(fp);
   abc = fgetc(fp);
-  
-  printf("%c\n", a);
-  printf("%c\n", ab);
-  printf("%c\n", abc);
-  
+    
   if (a != 'P' || ab != '6' || !isspace(abc)) {
     return NULL;
   }
@@ -90,6 +86,13 @@ Image * read_ppm(FILE *fp) {
     fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
     exit(3);
   }
+
+  Pixel * anotherPix = (Pixel*) malloc(sizeof(Pixel));
+  if (fread(anotherPix, sizeof(Pixel), 1, fp) == 1) {
+    fprintf(stderr, "Specified input file is not a properly-formatted PPM file, or reading input somehow fails\n");
+    exit(3);
+  }
+  free(anotherPix);
 
   return img;
   
